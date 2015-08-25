@@ -1,0 +1,167 @@
+#summary Short manual
+
+= Introduction =
+
+Zincite consists of java utilities to help refactor jsps and java classes. They were all developed to solve issues I had while working at my job as a websphere developer. However they are applicable to any java web server.
+
+
+== Dependencies ==
+
+The utilities are written making use of cliche shell, another google code project found at http://code.google.com/p/cliche/ . Thank you for a very useful project. This means all utilities can be run at the command line within your IDE. The code for cliche shell is all included within this project, there is no need to download it separately.
+
+The project makes use of generics so you will need to be using at least java 5.
+
+== Before You Start ==
+
+Open the file `clicheUtils.SiteConstants.java` 
+
+ * Amend SOURCE_DIRECTORY to reference the top level folder containing your jsp files. 
+ * You will need to amend OUTPUT_DIRECTORY if you are not using a windows machine. 
+ * if you prefer to indent using tabs not spaces change SPACING_FOR_LEVEL to "\t".
+
+== Shortcuts ==
+
+Most of the utilities take a file name. This can be entered as -l (sorry that's a lowercase L). The utility will then use the last file name you entered (stored in OUTPUT_DIRECTORY parameter.txt ).
+
+== Selection ==
+
+Several of the classes include an array titled suffix. This limits the class to only process files that match any of the suffixes.
+
+== Output ==
+
+If the utility writes a file, it is written to OUTPUT_DIRECTORY out.txt
+
+= Utilities =
+
+== Add ETM Monitor To Java ==
+
+Java Execution Time Measurement Library is a small and free library, that helps locating performance problems in existing Java applications. It can be found here http://jetm.void.fm/
+
+This utility adds monitoring statements to every method in your class.
+
+Enter *add your-file-name*
+
+== Add Logger To Java ==
+
+This will add logging statements to the start and end of every method. Also before any premature returns.
+
+Enter *add your-file-name*
+
+== Check Tag Integrity ==
+
+This utility checks the contents of two different tags and reports any differences in all files in SOURCE_DIRECTORY. If a tag exists more than once, the first occurrence is used. If either tag does not exist, that is reported also.
+
+For example you might look for all TITLE tags that do not match H1 tags (check title h1).
+
+Enter *check tag-name1 tag-name2*
+
+== Convert Selenium Test To RC ==
+
+This allows you to convert selenium tests in HTML format to tests in
+selenium remote control format. Unmatched commands are reported, as not
+every possible command has been converted.
+
+All files in directory are converted, and merged into one output file
+OUTPUT_DIRECTORY out.txt. Filenames are written as comments in the output
+file.
+
+To ignore certain files, put their names as regular expressions in IGNORE_FILES.
+
+Enter *convert full-path-to-directory*
+
+== Find String Between Tags == 
+
+This allows you to find a string or regular expression within a specific tag in all files in SOURCE_DIRECTORY.
+
+For example you might look for all TITLE tags that contain the word report (find `[Rr]eport` title). You could use the search facility in your IDE, this just simplifies the search.
+
+Enter *find regular-expression tag-name*
+
+== Find String In Property ==
+
+This allows you to find a string or regular expression within a specific property in all files in SOURCE_DIRECTORY.
+
+For example you might look for all A tags that contain a space in the HREF property (find "[ ]" href a). You could use the search facility in your IDE, this just simplifies the search.
+
+Enter *find regular-expression property tag-name*
+
+== Find Words In Code ==
+
+This allows you to find all words in files (that match suffix) in specified directory. 
+
+They are written to the out.txt in the output directory to be spell checked by, for example, MS Word
+
+Words are divided by any non letter, and by the first capital letter within a string.
+For example abc1def becomes abc, def
+abcDef become abc, Def
+
+Enter *parse full-path-to-directory*
+
+== Format Html Jsp ==
+
+This reformats your html or jsp file, placing one tag per line, indented correctly. It will not change any css, javascript or java code in the file. Any unmatched tags will be written to the console. So nothing in the console means your tags are matched correctly. Will not work for XHTML.
+
+Enter *format your-file-name*
+
+If you are having trouble with unmatched tags, the debug command will write the level of the tag at the start of the result file
+
+Enter *debug your-file-name*
+
+=== Known issues ===
+
+Each tag must be complete on a line, or the utility will crash and burn.
+
+== Manipulate Text ==
+
+This contains a number of utilities to rearrange the words on each line.
+
+To sort all the words on each line.
+
+Enter *sortline your-file-name*
+
+The null pointer exception issue. To change variable.equals(constant) to constant.equals(variable). Lines without this pattern will be written to the results file unchanged.
+
+Enter *swapequal your-file-name*
+
+To change all lines like 
+word1 word2 word3
+to 
+first-parameter word3 middle-parameter word1 word2 last-parameter
+i.e. breaks line on last space.
+
+Enter *swaplast your-file-name first-parameter middle-parameter last-parameter*
+
+To change all lines like 
+word1 word2 word3
+to 
+first-parameter word2 word3 middle-parameter word1 last-parameter
+i.e. breaks line on first space.
+
+Enter *swapfirst your-file-name first-parameter middle-parameter last-parameter*
+
+== Sort XML ==
+
+Sorts an XML file based on property name input. Elements at the same level will be sorted. Thanks to Clay Gregory for much of the utility.
+
+Enter *sort your-file-name property-name*
+
+== To String ==
+
+This builds a toString method for a class file. The class file you use must be on the build path of this project.
+
+Enter *generate fully-qualified-class-name*
+
+== To XML ==
+
+This builds a toXML method for a class file. The class file you use must be on the build path of this project. element-name is the name you want for the root element.
+
+Enter *generate fully-qualified-class-name element-name*
+
+== XSD To Model ==
+
+This extracts elements from a XML schema and writes them as java properties, starting at the element-name input.
+
+It will attempt to camel case the java property names, based on a dictionary file, dictionary.txt, stored in the root of the project.
+You will need to set PROJECT_DIRECTORY in `SiteConstants.java` to the root of your project. dictionary.txt can be edited to match your requirements.
+
+Enter *create your-file-name element-name*

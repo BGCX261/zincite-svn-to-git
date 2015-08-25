@@ -1,0 +1,17 @@
+company
+cust
+customer
+date
+from
+id
+info
+invoice
+number
+order
+password
+po
+received
+to
+type
+user
+view
